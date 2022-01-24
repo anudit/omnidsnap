@@ -1,10 +1,10 @@
 {
-  "version": "0.7.0",
+  "version": "0.1.0",
   "proposedName": "MetaMask Template Snap",
   "description": "A MetaMask Snap template.",
   "repository": {
     "type": "git",
-    "url": "https://github.com/MetaMask/snap-template.git"
+    "url": "https://github.com/anudit/omnidsnap.git"
   },
   "source": {
     "shasum": "ugRI+2ippw2w2gNSGWpvCRu5L1LD2j4FWQ+KcO/1dIE=",
@@ -12,13 +12,14 @@
       "npm": {
         "filePath": "dist/bundle.js",
         "iconPath": "images/icon.svg",
-        "packageName": "@metamask/template-snap",
+        "packageName": "@theconvospace/omnidsnap",
         "registry": "https://registry.npmjs.org/"
       }
     }
   },
   "initialPermissions": {
-    "snap_confirm": {}
+    "wallet_enable": {},
+    "eth_requestAccounts": {}
   },
   "manifestVersion": "0.1"
 }

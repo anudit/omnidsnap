@@ -1,18 +1,12 @@
 wallet.registerRpcMessageHandler(async (originString, requestObject) => {
   switch (requestObject.method) {
-    case 'hello':
-      return wallet.request({
-        method: 'snap_confirm',
-        params: [
-          {
-            prompt: `Hello, ${originString}!`,
-            description:
-              'This custom confirmation is just for display purposes.',
-            textAreaContent:
-              'But you can edit the snap source code to make it do something, if you want to!',
-          },
-        ],
-      });
+    case 'omnid_getTrustScoreData':
+      const accounts = await wallet.request({ method: 'eth_requestAccounts' });
+      const resp = await fetch(
+        `https://theconvo.space/api/identity?address=${accounts[0]}&apikey=CONVO`,
+      );
+      const result = await resp.json();
+      return result;
     default:
       throw new Error('Method not found.');
   }

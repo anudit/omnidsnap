@@ -1,10 +1,10 @@
 {
-  "name": "@metamask/template-snap",
-  "version": "0.7.0",
-  "description": "The 'Hello, world!' of MetaMask Snaps.",
+  "name": "@theconvospace/omnidsnap",
+  "version": "0.1.0",
+  "description": "Get the Trustscore of any Address using Omnid.",
   "repository": {
     "type": "git",
-    "url": "https://github.com/MetaMask/snap-template.git"
+    "url": "https://github.com/anudit/omnidsnap.git"
   },
   "license": "MIT",
   "main": "src/index.js",
