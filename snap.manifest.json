@@ -1,13 +1,13 @@
 {
   "version": "0.1.0",
-  "proposedName": "MetaMask Template Snap",
-  "description": "A MetaMask Snap template.",
+  "proposedName": "omnidsnap",
+  "description": "Omnid Snap",
   "repository": {
     "type": "git",
     "url": "https://github.com/anudit/omnidsnap.git"
   },
   "source": {
-    "shasum": "FH+1h5FCVSsjTH0nN/91pQp3BZwdHKJqa3IWJ228nTQ=",
+    "shasum": "vX3FyIENpfGBCe0KA85Xh5kecGLK6p+jDC0SJFQFt1s=",
     "location": {
       "npm": {
         "filePath": "dist/bundle.js",
@@ -18,8 +18,7 @@
     }
   },
   "initialPermissions": {
-    "wallet_enable": {},
-    "eth_requestAccounts": {}
+    "snap_confirm": {}
   },
   "manifestVersion": "0.1"
 }

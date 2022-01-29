@@ -1,3 +1,5 @@
+var fetch = require('node-fetch');
+
 wallet.registerRpcMessageHandler(async (originString, requestObject) => {
   switch (requestObject.method) {
     case 'omnid_getTrustScoreData':
