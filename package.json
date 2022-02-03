@@ -1,7 +1,7 @@
 {
-  "name": "@theconvospace/omnidsnap",
-  "version": "0.1.0",
-  "description": "Get the Trustscore of any Address using Omnid.",
+  "name": "@omnid/snap",
+  "version": "1.0.0",
+  "description": "Get the TrustScore of any Address using Omnid.",
   "repository": {
     "type": "git",
     "url": "https://github.com/anudit/omnidsnap.git"
@@ -51,7 +51,5 @@
   "engines": {
     "node": ">=12.11.0"
   },
-  "dependencies": {
-    "node-fetch": "2"
-  }
+  "dependencies": {}
 }

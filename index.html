@@ -7,39 +7,38 @@
 
   <body>
     <h1>Hello, Snaps!</h1>
-    <details>
-      <summary>Instructions</summary>
-      <ul>
-        <li>First, click "Connect". Then, try out the other buttons!</li>
-        <li>Please note that:</li>
-        <ul>
-          <li>
-            The <code>snap.manifest.json</code> and <code>package.json</code> must be located in located in the server root directory..
-          </li>
-          <li>
-            The Snap bundle must be hosted at the location specified by the <code>location</code> field of <code>snap.manifest.json</code>.
-          </li>
-        </ul>
-      </ul>
-    </details>
     <br/>
 
-    <button class="connect">Connect</button>
-    <button class="sendHello">omnid_getTrustScoreData</button>
-    <button onclick="send2()">omnid_default</button>
+    <h2>Step 1</h2>
+    <button onclick="addSnap()">Add Snap to Metmask</button>
+    <br/><br/>
+
+    <h2>Step 1</h2>
+    <button onclick="updateAddress()">Connect Wallet</button>
+    <br/><br/>
+
+    <h2>Step 2</h2>
+    <button onclick="sendMine()">Get Mine</button>
+    <br/><br/>
+
+    <h2>Step 3</h2>
+    <input type="text" id="add" placeholder="Ethereum Address" value="0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045"/>
+    <button onclick="sendX()">Calculate Score</button>
+    <br/><br/>
+
+    <h2>Output</h2>
+    <pre id="resp">
+
+    </pre>
+
   </body>
 
   <script>
-    const snapId = `local:${window.location.href}`;
+    // const snapId = `local:${window.location.href}`;
+    const snapId = `npm:@omnid/snap`;
+    let accounts = [];
 
-    const connectButton = document.querySelector('button.connect')
-    const sendButton = document.querySelector('button.sendHello')
-
-    connectButton.addEventListener('click', connect)
-    sendButton.addEventListener('click', send)
-
-    // here we get permissions to interact with and install the snap
-    async function connect () {
+    async function addSnap() {
       await ethereum.request({
         method: 'wallet_enable',
         params: [{
@@ -47,35 +46,36 @@
         }]
       })
     }
+    async function updateAddress() {
+      accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+      alert('Done')
+    }
 
-    // here we call the snap's "hello" method
-    async function send () {
+    async function sendMine() {
+      await sendRequest(accounts[0]);
+    }
+
+    async function sendX() {
+      await sendRequest('0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045');
+    }
+
+    async function sendRequest(address){
       try {
         const response = await ethereum.request({
           method: 'wallet_invokeSnap',
           params: [snapId, {
-            method: 'omnid_getTrustScoreData'
+            method: 'omnid_getTrustScoreData',
+            address: address,
+            apikey: 'CONVO',
           }]
         })
         console.log('response', response);
+        document.getElementById('resp').innerText = JSON.stringify(response, null, 2);
       } catch (err) {
         console.error(err)
         alert('Problem happened: ' + err.message || err)
       }
     }
-    async function send2() {
-      try {
-        const response = await ethereum.request({
-          method: 'wallet_invokeSnap',
-          params: [snapId, {
-            method: 'omnid_default'
-          }]
-        })
-        console.log('response', response);
-      } catch (err) {
-        console.error(err)
-        alert('Problem happened: ' + err.message || err)
-      }
-    }
+
   </script>
 </html>

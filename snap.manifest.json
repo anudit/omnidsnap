@@ -1,24 +1,24 @@
 {
-  "version": "0.1.0",
-  "proposedName": "omnidsnap",
-  "description": "Omnid Snap",
+  "version": "1.0.0",
+  "proposedName": "Omnid",
+  "description": "Get the TrustScore of any Address using Omnid.",
   "repository": {
     "type": "git",
     "url": "https://github.com/anudit/omnidsnap.git"
   },
   "source": {
-    "shasum": "F8xqfE2Vp5+kxlKWb2Z4rzVIjfdKh5lqrw9N3NpysVk=",
+    "shasum": "xrFnfMho95JwYe/bG8sYdXCUWp2hej9MaOrmMINBDWs=",
     "location": {
       "npm": {
         "filePath": "dist/bundle.js",
         "iconPath": "images/icon.svg",
-        "packageName": "@theconvospace/omnidsnap",
+        "packageName": "@omnid/snap",
         "registry": "https://registry.npmjs.org/"
       }
     }
   },
   "initialPermissions": {
-    "snap_confirm": {}
+    "endowment:network-access": {}
   },
   "manifestVersion": "0.1"
 }
