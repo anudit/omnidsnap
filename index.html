@@ -26,6 +26,7 @@
 
     <button class="connect">Connect</button>
     <button class="sendHello">omnid_getTrustScoreData</button>
+    <button onclick="send2()">omnid_default</button>
   </body>
 
   <script>
@@ -54,6 +55,20 @@
           method: 'wallet_invokeSnap',
           params: [snapId, {
             method: 'omnid_getTrustScoreData'
+          }]
+        })
+        console.log('response', response);
+      } catch (err) {
+        console.error(err)
+        alert('Problem happened: ' + err.message || err)
+      }
+    }
+    async function send2() {
+      try {
+        const response = await ethereum.request({
+          method: 'wallet_invokeSnap',
+          params: [snapId, {
+            method: 'omnid_default'
           }]
         })
         console.log('response', response);
