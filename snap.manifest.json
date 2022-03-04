@@ -1,13 +1,13 @@
 {
   "version": "1.0.0",
   "proposedName": "Omnid",
-  "description": "Get the TrustScore of any Address using Omnid.",
+  "description": "MetaMask Snap for Omnid.",
   "repository": {
     "type": "git",
     "url": "https://github.com/anudit/omnidsnap.git"
   },
   "source": {
-    "shasum": "xrFnfMho95JwYe/bG8sYdXCUWp2hej9MaOrmMINBDWs=",
+    "shasum": "brlqvyWWIuD4P+HNxAEQZXNQ0d9LFvgK2bgTEyZz7sg=",
     "location": {
       "npm": {
         "filePath": "dist/bundle.js",
