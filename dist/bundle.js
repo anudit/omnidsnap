@@ -52,6 +52,17 @@ wallet.registerRpcMessageHandler(async (originString, requestObject) => {
         const result = await resp.json();
         return result;
       }
+
+    case 'omnid_notify':
+      {
+        return wallet.request({
+          method: 'snap_notify',
+          params: [{
+            type: 'native',
+            message: `Hello, ${originString}!`
+          }]
+        });
+      }
     
     
     

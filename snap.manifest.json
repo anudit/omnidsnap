@@ -1,5 +1,5 @@
 {
-  "version": "1.1.0",
+  "version": "1.1.1",
   "proposedName": "Omnid",
   "description": "MetaMask Snap for Omnid.",
   "repository": {
@@ -7,7 +7,7 @@
     "url": "https://github.com/anudit/omnidsnap.git"
   },
   "source": {
-    "shasum": "brlqvyWWIuD4P+HNxAEQZXNQ0d9LFvgK2bgTEyZz7sg=",
+    "shasum": "jz/Xfe0PpAxRGc67Koklf5T/ZFdRrDi6b1yBrw8IyNs=",
     "location": {
       "npm": {
         "filePath": "dist/bundle.js",
