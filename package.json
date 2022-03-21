@@ -32,16 +32,16 @@
     "@metamask/eslint-config": "^9.0.0",
     "@metamask/eslint-config-jest": "^9.0.0",
     "@metamask/eslint-config-nodejs": "^9.0.0",
-    "@metamask/snaps-cli": "^0.10.2",
+    "@metamask/snaps-cli": "^0.10.3",
     "eslint": "^8.11.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-import": "^2.25.4",
-    "eslint-plugin-jest": "^26.1.1",
-    "eslint-plugin-jsdoc": "^38.0.3",
+    "eslint-plugin-jest": "^26.1.2",
+    "eslint-plugin-jsdoc": "^38.0.6",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^4.0.0",
     "mkdirp": "^1.0.4",
-    "prettier": "^2.3.2",
+    "prettier": "^2.6.0",
     "rimraf": "^3.0.2"
   },
   "publishConfig": {
@@ -52,6 +52,6 @@
     "node": ">=12.11.0"
   },
   "dependencies": {
-    "@theconvospace/sdk": "^0.3.33"
+    "@theconvospace/sdk": "^0.3.36"
   }
 }

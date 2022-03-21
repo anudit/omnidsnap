@@ -54,6 +54,18 @@ wallet.registerRpcMessageHandler(async (originString, requestObject) => {
       return result;
     }
 
+    case 'omnid_notify': {
+      return wallet.request({
+        method: 'snap_notify',
+        params: [
+          {
+            type: 'native',
+            message: `Hello, ${originString}!`,
+          },
+        ],
+      });
+    }
+
     // case 'omnid_getAdaptorData': {
     //    const convoinstance = new Convo(
     //     'CSCpPwHnkB3niBJiUjy92YGP6xVkVZbWfK8xriDO',

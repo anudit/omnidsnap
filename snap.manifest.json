@@ -18,7 +18,8 @@
     }
   },
   "initialPermissions": {
-    "endowment:network-access": {}
+    "endowment:network-access": {},
+    "snap_notify": {}
   },
   "manifestVersion": "0.1"
 }

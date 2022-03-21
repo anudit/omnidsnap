@@ -25,6 +25,10 @@
     <button onclick="execForta()">Get Forta Data</button>
     <br/><br/>
 
+    <h2>Misc</h2>
+    <button onclick="execNotif()">execNotif</button>
+    <br/><br/>
+
     <h2>Output</h2>
     <pre id="resp">
 
@@ -91,6 +95,22 @@
           params: [snapId, {
             method: 'omnid_getFortaData',
             address: address,
+          }]
+        })
+        console.log('response', response);
+        document.getElementById('resp').innerText = JSON.stringify(response, null, 2);
+      } catch (err) {
+        console.error(err)
+        alert('Problem happened: ' + err.message || err)
+      }
+    }
+
+    async function execNotif(){
+      try {
+        const response = await ethereum.request({
+          method: 'wallet_invokeSnap',
+          params: [snapId, {
+            method: 'omnid_notify',
           }]
         })
         console.log('response', response);
