@@ -1,10 +1,31 @@
-// const { Convo } = require('@theconvospace/sdk');
+// wallet.onMetaMaskEvent('newUnapprovedTx', async (txMeta) => {
+//   console.log('newUnapprovedTx', txMeta);
+//   const { txParams } = txMeta;
+//   const addressIsUntrustworthy = true;
+//   wallet.addAddressAudit({
+//     address: txParams.to,
+//     auditor: 'Awesome Audits',
+//     status: addressIsUntrustworthy ? 'warning' : 'approval',
+//     message: addressIsUntrustworthy
+//       ? 'The recipient of this transaction is untrustworthy'
+//       : 'The recipient of this transaction is trustworthy',
+//   });
+// });
 
-wallet.registerRpcMessageHandler(async (originString, requestObject) => {
-  switch (requestObject.method) {
+// wallet.onMetaMaskEvent('tx:status-update', (id, status) => {
+//   const currentPluginState = wallet.getPluginState();
+//   const txMeta = wallet.getTxById(id);
+
+//   console.log('tx:status-update', id, status, currentPluginState, txMeta);
+// });
+
+module.exports.onRpcRequest = async ({ origin, request }) => {
+  console.log('omnid snap req', origin, request);
+
+  switch (request.method) {
     case 'omnid_getTrustScoreData': {
       const resp = await fetch(
-        `https://theconvo.space/api/identity?address=${requestObject.address}&apikey=${requestObject.apikey}`,
+        `https://theconvo.space/api/identity?address=${request.address}&apikey=${request.apikey}`,
       );
       const result = await resp.json();
       return result;
@@ -12,10 +33,10 @@ wallet.registerRpcMessageHandler(async (originString, requestObject) => {
 
     case 'omnid_getFortaData': {
       const customVariables =
-        Boolean(requestObject.customVariables) === true
-          ? requestObject.customVariables
+        Boolean(request.customVariables) === true
+          ? request.customVariables
           : {
-              input: { addresses: [requestObject.address.toLowerCase()] },
+              input: { addresses: [request.address.toLowerCase()] },
             };
 
       const resp = await fetch('https://api.forta.network/graphql', {
@@ -60,27 +81,14 @@ wallet.registerRpcMessageHandler(async (originString, requestObject) => {
         params: [
           {
             type: 'native',
-            message: `Hello, ${originString}!`,
+            message: `Hello, ${origin}!`,
           },
         ],
       });
     }
 
-    // case 'omnid_getAdaptorData': {
-    //    const convoinstance = new Convo(
-    //     'CSCpPwHnkB3niBJiUjy92YGP6xVkVZbWfK8xriDO',
-    //   );
-    //   const adaptor = convoinstance.omnid.adaptors[requestObject.adaptor];
-    //   const params = [requestObject.address];
-    //   if ('config' in requestObject) {
-    //     params.push(requestObject.config);
-    //   }
-    //   const result = await adaptor.apply(this, params);
-    //   return result;
-    // }
-
     default: {
       throw new Error('Method not found.');
     }
   }
-});
+};

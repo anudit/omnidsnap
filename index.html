@@ -29,6 +29,11 @@
     <button onclick="execNotif()">execNotif</button>
     <br/><br/>
 
+    <h2>Contract Trial</h2>
+    <input type="number" id="contractVal" placeholder="A number"/>
+    <button onclick="execContract()">execContract</button>
+    <br/><br/>
+
     <h2>Output</h2>
     <pre id="resp">
 
@@ -36,10 +41,12 @@
 
   </body>
 
+  <script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js" type="application/javascript"></script>
   <script>
-    const snapId = `local:${window.location.href}`;
-    // const snapId = `npm:@omnid/snap`;
+    // const snapId = `local:${window.location.href}`;
+    const snapId = `npm:@omnid/snap`;
     let accounts = [];
+    let provider;
 
     async function addSnap() {
       await ethereum.request({
@@ -51,6 +58,7 @@
     }
     async function updateAddress() {
       accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+      provider = new ethers.providers.Web3Provider(window.ethereum);
       alert('Done')
     }
 
@@ -103,6 +111,15 @@
         console.error(err)
         alert('Problem happened: ' + err.message || err)
       }
+    }
+
+    async function execContract(){
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      await provider.send("eth_requestAccounts", []);
+      const signer = provider.getSigner();
+      const storageContract = new ethers.Contract("0xc35DbFC3565F69803a2d12938c8BF95429F07093", [{"anonymous":false,"inputs":[{"indexed":false,"internalType":"uint256","name":"num","type":"uint256"}],"name":"NumUpdated","type":"event"},{"inputs":[],"name":"retrieve","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"num","type":"uint256"}],"name":"store","outputs":[],"stateMutability":"nonpayable","type":"function"}], signer);
+      const tx = await storageContract.store(document.getElementById('contractVal').value);
+      console.log('sent txn', tx);
     }
 
     async function execNotif(){
