@@ -92,3 +92,9 @@ module.exports.onRpcRequest = async ({ origin, request }) => {
     }
   }
 };
+
+module.exports.onTransaction = ({ origin, transaction, chainId }) => ({
+  origin,
+  transaction,
+  chainId,
+});
