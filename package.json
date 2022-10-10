@@ -52,7 +52,7 @@
     "node": ">=14.0.0"
   },
   "dependencies": {
-    "@metamask/snaps-browserify-plugin": "^0.20.0",
+    "@metamask/snaps-browserify-plugin": "^0.22.1",
     "@theconvospace/sdk": "^0.5.19"
   }
 }
