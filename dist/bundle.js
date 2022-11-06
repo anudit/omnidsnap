@@ -5,7 +5,6 @@
     define([], f);
   } else {
     var g;
-
     if (typeof window !== "undefined") {
       g = window;
     } else if (typeof global !== "undefined") {
@@ -15,7 +14,6 @@
     } else {
       g = this;
     }
-
     g.snap = f();
   }
 })(function () {
@@ -31,7 +29,6 @@
             var a = new Error("Cannot find module '" + i + "'");
             throw a.code = "MODULE_NOT_FOUND", a;
           }
-
           var p = n[i] = {
             exports: {}
           };
@@ -40,39 +37,50 @@
             return o(n || r);
           }, p, p.exports, r, e, n, t);
         }
-
         return n[i].exports;
       }
-
       for (var u = "function" == typeof require && require, i = 0; i < t.length; i++) o(t[i]);
-
       return o;
     }
-
     return r;
   }()({
     1: [function (require, module, exports) {
       "use strict";
 
-      module.exports.onRpcRequest = async ({
+      Object.defineProperty(exports, "__esModule", {
+        value: true
+      });
+      exports.onRpcRequest = void 0;
+      var _insights = require("./insights");
+      const onRpcRequest = async ({
         origin,
         request
       }) => {
         console.log('omnid snap req', origin, request);
-
         switch (request.method) {
           case 'omnid_getTrustScoreData':
             {
-              const resp = await fetch(`https://theconvo.space/api/identity?address=${request.address}&apikey=${request.apikey}`);
+              let params = request.params ? request.params : {};
+              let params2 = params;
+              const resp = await fetch(`https://theconvo.space/api/identity?address=${params2.address}&apikey=${params2.apikey}`);
               const result = await resp.json();
               return result;
             }
-
+          case 'omnid_isMalicious':
+            {
+              let params = request.params ? request.params : {};
+              let params2 = params;
+              const resp = await fetch(`https://theconvo.space/api/omnid/kits/isMalicious?addresses=["${params2.address}"]&apikey=${params2.apikey}`);
+              const result = await resp.json();
+              return result;
+            }
           case 'omnid_getFortaData':
             {
-              const customVariables = Boolean(request.customVariables) === true ? request.customVariables : {
+              let params = request.params ? request.params : {};
+              let params2 = params;
+              const customVariables = Boolean(params2.customVariables) === true ? params2.customVariables : {
                 input: {
-                  addresses: [request.address.toLowerCase()]
+                  addresses: [params2.address.toLowerCase()]
                 }
               };
               const resp = await fetch('https://api.forta.network/graphql', {
@@ -109,34 +117,74 @@
               const result = await resp.json();
               return result;
             }
-
-          case 'omnid_notify':
-            {
-              return wallet.request({
-                method: 'snap_notify',
-                params: [{
-                  type: 'native',
-                  message: `Hello, ${origin}!`
-                }]
-              });
-            }
-
           default:
             {
               throw new Error('Method not found.');
             }
         }
       };
+      exports.onRpcRequest = onRpcRequest;
+      module.exports.onTransaction = _insights.getInsights;
+    }, {
+      "./insights": 2
+    }],
+    2: [function (require, module, exports) {
+      "use strict";
 
-      module.exports.onTransaction = ({
-        origin,
-        transaction,
-        chainId
-      }) => ({
-        origin,
-        transaction,
-        chainId
+      Object.defineProperty(exports, "__esModule", {
+        value: true
       });
+      exports.getInsights = void 0;
+      const getInsights = async ({
+        chainId,
+        transaction
+      }) => {
+        console.log('from Snap, transaction', transaction);
+        try {
+          if (transaction !== null && transaction !== void 0 && transaction.to) {
+            let data = await fetch(`https://theconvo.space/api/omnid/kits/isMalicious?addresses=[%22${transaction.to}%22]&apikey=CSCpPwHnkB3niBJiUjy92YGP6xVkVZbWfK8xriDO`, {
+              method: "GET",
+              headers: {
+                'Connection': 'keep-alive',
+                'Accept': '*/*'
+              }
+            });
+            let resp = await data.json();
+            console.log('from Snap, data', resp);
+            if ((resp === null || resp === void 0 ? void 0 : resp.results.length) > 0) {
+              let insights = {};
+              let data = resp === null || resp === void 0 ? void 0 : resp.results[0].value;
+              for (let [key, val] of Object.entries(data)) {
+                insights[key] = val === false ? '🟢 Looks Good' : JSON.stringify(val);
+              }
+              console.log('got Insights', insights);
+              return {
+                insights
+              };
+            } else {
+              return {
+                insights: {
+                  'No results': ''
+                }
+              };
+            }
+          } else {
+            return {
+              insights: {
+                'No \'to\' in Transaction': ''
+              }
+            };
+          }
+        } catch (error) {
+          console.error(error);
+          return {
+            insights: {
+              'Error': JSON.stringify(error)
+            }
+          };
+        }
+      };
+      exports.getInsights = getInsights;
     }, {}]
   }, {}, [1])(1);
 });

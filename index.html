@@ -23,6 +23,7 @@
     <input type="text" id="add" placeholder="Ethereum Address" value="0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045"/>
     <button onclick="sendX()">Calculate Score</button>
     <button onclick="execForta()">Get Forta Data</button>
+    <button onclick="getIsMalicious()">Get isMalicous</button>
     <br/><br/>
 
     <h2>Misc</h2>
@@ -80,8 +81,10 @@
           method: 'wallet_invokeSnap',
           params: [snapId, {
             method: 'omnid_getTrustScoreData',
-            address: address,
-            apikey: 'CONVO',
+            params: {
+              address: address,
+              apikey: 'CONVO',
+            }
           }]
         })
         console.log('response', response);
@@ -102,7 +105,29 @@
           method: 'wallet_invokeSnap',
           params: [snapId, {
             method: 'omnid_getFortaData',
-            address: address,
+            params: {
+              address: address,
+            }
+          }]
+        })
+        console.log('response', response);
+        document.getElementById('resp').innerText = JSON.stringify(response, null, 2);
+      } catch (err) {
+        console.error(err)
+        alert('Problem happened: ' + err.message || err)
+      }
+    }
+
+    async function getIsMalicious(){
+      try {
+        const response = await ethereum.request({
+          method: 'wallet_invokeSnap',
+          params: [snapId, {
+            method: 'omnid_isMalicious',
+            params: {
+              address: document.getElementById('add').value,
+              apikey: 'CONVO',
+            }
           }]
         })
         console.log('response', response);
@@ -117,7 +142,7 @@
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       await provider.send("eth_requestAccounts", []);
       const signer = provider.getSigner();
-      const storageContract = new ethers.Contract("0xc35DbFC3565F69803a2d12938c8BF95429F07093", [{"anonymous":false,"inputs":[{"indexed":false,"internalType":"uint256","name":"num","type":"uint256"}],"name":"NumUpdated","type":"event"},{"inputs":[],"name":"retrieve","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"num","type":"uint256"}],"name":"store","outputs":[],"stateMutability":"nonpayable","type":"function"}], signer);
+      const storageContract = new ethers.Contract("0x726e245081d773e67218fdee8f364f03b0a22e2a", [{"anonymous":false,"inputs":[{"indexed":false,"internalType":"uint256","name":"num","type":"uint256"}],"name":"NumUpdated","type":"event"},{"inputs":[],"name":"retrieve","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"num","type":"uint256"}],"name":"store","outputs":[],"stateMutability":"nonpayable","type":"function"}], signer);
       const tx = await storageContract.store(document.getElementById('contractVal').value);
       console.log('sent txn', tx);
     }
